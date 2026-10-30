@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحدّي الرياضيات | نحو التفكير والإبداع - المعلمة أسماء المطير</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo & Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        math: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        },
+                        brand: {
+                            primary: '#4f46e5',
+                            secondary: '#06b6d4',
+                            accent: '#f59e0b',
+                            purple: '#8b5cf6',
+                            dark: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .gamified-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .gamified-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -3px rgba(79, 70, 229, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .badge-glow {
+            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.4));
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 4px;
+            font-weight: bold;
+        }
+        .fraction .top {
+            border-bottom: 2px solid currentColor;
+            padding-bottom: 1px;
+        }
+        .fraction .bottom {
+            padding-top: 1px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 font-cairo">
+
+    <!-- Header Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Platform Brand Logo & Supervisor -->
+                <div class="flex items-center space-x-3 space-x-reverse cursor-pointer" onclick="navigateTo('home')">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-primary to-brand-secondary flex items-center justify-center text-white text-2xl shadow-lg shadow-indigo-200 transform rotate-3 hover:rotate-0 transition-transform">
+                        <i class="fa-solid fa-square-root-variable"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-2">
+                            تحدّي الرياضيات
+                            <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-indigo-100 text-brand-primary">نحو التفكير والإبداع</span>
+                        </h1>
+                        <p class="text-xs text-slate-500 font-semibold flex items-center gap-1">
+                            <i class="fa-solid fa-chalkboard-user text-brand-secondary"></i>
+                            إشراف المعلمة: <span class="text-brand-primary font-bold">أسماء المطير</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Global Stats Pills & Nav Buttons -->
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <!-- User Score Pill -->
+                    <div class="hidden md:flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 px-3 py-1.5 rounded-full text-sm font-bold shadow-sm">
+                        <i class="fa-solid fa-star text-amber-500 text-base"></i>
+                        <span id="header-points">0</span> نقطة
+                    </div>
+                    <!-- Badges Count Pill -->
+                    <div class="hidden md:flex items-center gap-2 bg-indigo-50 border border-indigo-200 text-indigo-800 px-3 py-1.5 rounded-full text-sm font-bold shadow-sm">
+                        <i class="fa-solid fa-award text-indigo-600 text-base"></i>
+                        <span id="header-badges">0</span>/7 وسام
+                    </div>
+                    <!-- Teacher Dashboard Link -->
+                    <button onclick="openTeacherModal()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-colors shadow-md">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <span class="hidden sm:inline">لوحة المعلمة</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Breadcrumb & Quick Links Bar -->
+    <div class="bg-indigo-900 text-white py-2.5 px-4 shadow-inner">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between text-xs sm:text-sm gap-2">
+            <div class="flex items-center space-x-2 space-x-reverse font-medium" id="breadcrumb">
+                <span class="hover:text-indigo-200 cursor-pointer" onclick="navigateTo('home')"><i class="fa-solid fa-house"></i> الرئيسية</span>
+                <span id="breadcrumb-current" class="hidden text-indigo-300">/ <span id="breadcrumb-text">الفصل الأول</span></span>
+            </div>
+            <div class="flex items-center space-x-4 space-x-reverse font-bold text-indigo-100">
+                <button onclick="navigateTo('home')" class="hover:text-amber-300 transition-colors"><i class="fa-solid fa-grid-2"></i> الفصول</button>
+                <button onclick="navigateTo('lab')" class="hover:text-amber-300 transition-colors"><i class="fa-solid fa-brain text-amber-400"></i> مختبر التفكير</button>
+                <button onclick="navigateTo('badges')" class="hover:text-amber-300 transition-colors"><i class="fa-solid fa-trophy text-amber-400"></i> إنجازاتي</button>
+                <button onclick="playRandomQuestion()" class="hover:text-amber-300 transition-colors"><i class="fa-solid fa-shuffle text-emerald-400"></i> سؤال عشوائي</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dynamic View Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8" id="app-container">
+        <!-- Dynamic Content Injected Here -->
+    </main>
+
+    <!-- Global Image / Diagram Zoom Modal -->
+    <div id="zoom-modal" class="fixed inset-0 z-50 bg-black/80 hidden backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="relative max-w-4xl w-full bg-white rounded-3xl p-6 shadow-2xl overflow-hidden text-center">
+            <button onclick="closeZoomModal()" class="absolute top-4 left-4 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-lg font-bold text-slate-800 mb-4" id="zoom-title">معاينة الشكل الهندسي والتوضيح</h3>
+            <div id="zoom-content" class="flex items-center justify-center min-h-[300px] p-4 bg-slate-50 rounded-2xl border border-slate-200 overflow-auto">
+                <!-- Diagram Zoom Render -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Teacher Access Password Modal -->
+    <div id="teacher-auth-modal" class="fixed inset-0 z-50 bg-black/70 hidden backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-indigo-100 text-right">
+            <div class="w-16 h-16 rounded-2xl bg-indigo-100 text-indigo-600 mx-auto mb-4 flex items-center justify-center text-3xl">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-800 text-center mb-1">لوحة متابعة المعلمة</h3>
+            <p class="text-xs text-slate-500 text-center mb-6">خاص بالمعلمة أسماء المطير للمتابعة والتقييم</p>
+            <form onsubmit="verifyTeacherAccess(event)">
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-slate-700 mb-2">كلمة المرور الخاصة بالمعلمة:</label>
+                    <input type="password" id="teacher-password-input" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-primary focus:border-brand-primary text-center font-bold text-lg tracking-widest" placeholder="••••••••" required>
+                    <p class="text-[11px] text-slate-400 mt-1">تلميح تجريبي للمعلمة: كلمة المرور الافتراضية هي <span class="font-bold text-slate-600">1234</span></p>
+                </div>
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 bg-brand-primary hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg transition-colors">دخول اللوحة</button>
+                    <button type="button" onclick="closeTeacherModal()" class="px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-colors">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Celebration Achievement Overlay Animation -->
+    <div id="celebration-overlay" class="fixed inset-0 z-50 pointer-events-none hidden flex items-center justify-center p-4">
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-8 border-4 border-amber-400 shadow-2xl text-center transform scale-90 transition-all duration-300 pointer-events-auto max-w-md" id="celebration-box">
+            <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-300 text-white mx-auto mb-4 flex items-center justify-center text-4xl shadow-xl badge-glow">
+                <i class="fa-solid fa-crown"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-800 mb-2" id="celeb-title">أحسنتِ يا بطلة الرياضيات!</h3>
+            <p class="text-slate-600 text-sm mb-4 font-semibold" id="celeb-desc">لقد أجبتِ إجابة صحيحة وكسبتِ نقاطاً جديدة!</p>
+            <div class="text-amber-600 font-black text-2xl mb-6" id="celeb-points">+50 نقطة</div>
+            <button onclick="closeCelebration()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-3 rounded-xl shadow-lg hover:brightness-110">متابعة التحدي</button>
+        </div>
+    </div>
+
+    <!-- Footer Platform Information -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex justify-center items-center gap-3 mb-4">
+                <div class="w-8 h-8 rounded-lg bg-brand-primary text-white flex items-center justify-center font-bold text-sm">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+                <span class="text-sm font-bold text-white">منصة تحدّي الرياضيات - الثاني المتوسط</span>
+            </div>
+            <p class="mb-2">مصممة خصيصاً لتنمية مهارات التفكير العليا والتفكير النقدي والإبداعي في مادة الرياضيات للفصل الدراسي الأول.</p>
+            <p class="text-slate-500 font-semibold">إعداد وإشراف المعلمة القديرة: <span class="text-indigo-300">أسماء المطير</span> &copy; 2026 جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- App Engine JavaScript -->
+    <script>
+        // ==========================================
+        // DATA STRUCTURE: Complete PDF Content Extract
+        // ==========================================
+        const CHAPTERS_DATA = [
+            {
+                id: "ch1",
+                number: "1",
+                title: "الجبر: الأعداد النسبية",
+                desc: "الأعداد النسبية، مقارنتها، العمليات عليها، القوى والأسس، والصيغة العلمية",
+                icon: "fa-calculator",
+                color: "from-blue-600 to-indigo-700",
+                badgeColor: "bg-blue-100 text-blue-700",
+                lessons: [
+                    "1-1 الأعداد النسبية",
+                    "2-1 مقارنة الأعداد النسبية وترتيبها",
+                    "3-1 ضرب الأعداد النسبية",
+                    "4-1 قسمة الأعداد النسبية",
+                    "5-1 جمع الأعداد النسبية ذات المقامات المتشابهة وطرحها",
+                    "6-1 جمع الأعداد النسبية ذات المقامات المختلفة وطرحها",
+                    "8-1 القوى والأسس",
+                    "9-1 الصيغة العلمية"
+                ],
+                questions: [
+                    {
+                        id: "q1_1",
+                        lesson: "1-1 الأعداد النسبية",
+                        page: 4,
+                        type: "mcq",
+                        skill: "اكتشف المختلف (تحليل)",
+                        text: "عين الكسر الذي لا ينتمي إلى الكسور الثلاثة الأخرى، ووضح إجابتك:",
+                        options: ["5/8", "-2/3", "1/6", "3/4"],
+                        correct: 1, // -2/3 is negative or distinct decimal type
+                        solution: "الكسر -2/3 عدد نسبي سالب، بينما باقي الكسور موجبة (أو بالنظر للصورة العشرية).",
+                        diagramType: "fractions_group",
+                        isHigherThinking: true,
+                        higherCategory: "اكتشفي الخطأ والمختلف"
+                    },
+                    {
+                        id: "q1_2",
+                        lesson: "1-1 الأعداد النسبية",
+                        page: 4,
+                        type: "written",
+                        skill: "مسألة مفتوحة",
+                        text: "أعط مثالاً لكسر عشري دوري يتكرر فيه رقمان، ووضح لماذا يعتبر عدداً نسبياً؟",
+                        solution: "مثال: 0.2727... (أو 0.27 دوري)، يعتبر عدداً نسبياً لأنه يمكن كتابته على صورة كسر اعتيادي أ/ب وهو 27/99.",
+                        isHigherThinking: true,
+                        higherCategory: "مسألة مفتوحة"
+                    },
+                    {
+                        id: "q1_3",
+                        lesson: "1-1 الأعداد النسبية",
+                        page: 5,
+                        type: "mcq",
+                        skill: "تطبيق وفهم",
+                        text: "أي الكسور العشرية الآتية تكافئ الكسر الكسري 2 و 2/5 ؟",
+                        options: ["أ) 2.4", "ب) 2.45", "ج) 2.55", "د) 2.6"],
+                        correct: 0,
+                        solution: "2/5 = 0.4، إذن 2 و 2/5 = 2.4 الإجابة الصحيحة (أ).",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q1_4",
+                        lesson: "2-1 مقارنة الأعداد النسبية وترتيبها",
+                        page: 7,
+                        type: "mcq",
+                        skill: "تمثيل بصري وتحليل",
+                        text: "أي النقاط التالية تمثل 0.425 على خط الأعداد الموضح؟",
+                        options: ["أ) النقطة س", "ب) النقطة ص", "ج) النقطة ع", "د) النقطة ل"],
+                        correct: 2,
+                        diagramType: "number_line_1",
+                        solution: "0.425 تقع بين 1/4 (0.25) و 1/2 (0.50) وهي أقرب إلى 0.50، وهي تمثل النقطة ع.",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q1_5",
+                        lesson: "3-1 ضرب الأعداد النسبية",
+                        page: 8,
+                        type: "written",
+                        skill: "اكتشف الخطأ",
+                        text: "قام سمير وأنس بإيجاد ناتج ضرب 2/5 في 3/4. قال سمير الناتج 6/20، بينما بسطه أنس إلى 3/10. أيهما على صواب؟ وضح إجابتك.",
+                        solution: "كلاهما صحيح في القيمة، ولكن أنس إجابته أدق وأكمل لأنه كتب الكسر في أبسط صورة (3/10).",
+                        isHigherThinking: true,
+                        higherCategory: "اكتشفي الخطأ والمختلف"
+                    },
+                    {
+                        id: "q1_6",
+                        lesson: "4-1 قسمة الأعداد النسبية",
+                        page: 11,
+                        type: "mcq",
+                        skill: "تطبيق من واقع الحياة",
+                        text: "يريد معلم إجراء تجربة مع 20 طالباً، كل طالب يحتاج 3/4 كوب من الخل. إذا كان لدى المعلم 15 كوباً، فأي العبارات تحدد ما إذا كانت الكمية تكفي؟",
+                        options: ["أ) س = 20 ÷ 15", "ب) س = 15 ÷ (3/4)", "ج) س = 20 - 15", "د) س = 15 × 20"],
+                        correct: 1,
+                        solution: "لمعرفة عدد الطلاب الذين تكفيهم 15 كوباً نقسم الكمية الإجمالية على حصة الطالب: 15 ÷ (3/4) = 20 طالب، فالكمية تكفي تماماً.",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q1_7",
+                        lesson: "8-1 القوى والأسس",
+                        page: 17,
+                        type: "mcq",
+                        skill: "فهم وتطبيق",
+                        text: "ما حجم مكعب طول ضلعه (2/4) سم باستعمال الأسس؟",
+                        options: ["أ) 9/16", "ب) (2/4)³", "ج) 8/64", "د) 6/12"],
+                        correct: 1,
+                        diagramType: "cube_diagram",
+                        solution: "حجم المكعب = طول الضلع × نفسه × نفسه = (2/4)³ = 8/64 = 1/8.",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q1_8",
+                        lesson: "9-1 الصيغة العلمية",
+                        page: 19,
+                        type: "mcq",
+                        skill: "تطبيق",
+                        text: "تصل درجة الحرارة في مركز الشمس إلى 1.55 × 10⁷ س تقريباً. اكتب درجة الحرارة بالصيغة القياسية:",
+                        options: ["أ) 15500000", "ب) 1550000", "ج) 0.00000155", "د) 0.0000155"],
+                        correct: 0,
+                        solution: "تحريك الفاصلة 7 منازل لليمين: 1.55 × 10⁷ = 15,500,000.",
+                        isHigherThinking: false
+                    }
+                ]
+            },
+            {
+                id: "ch2",
+                number: "2",
+                title: "الأعداد الحقيقية ونظرية فيثاغورس",
+                desc: "الجذور التربيعية وتقديرها، الأعداد الحقيقية، نظرية فيثاغورس وتطبيقاتها والهندسة الإحداثية",
+                icon: "fa-shapes",
+                color: "from-emerald-600 to-teal-700",
+                badgeColor: "bg-emerald-100 text-emerald-700",
+                lessons: [
+                    "1-2 الجذور التربيعية",
+                    "2-2 تقدير الجذور التربيعية",
+                    "4-2 الأعداد الحقيقية",
+                    "5-2 نظرية فيثاغورس",
+                    "6-2 تطبيقات على نظرية فيثاغورس",
+                    "7-2 الأبعاد في المستوى الإحداثي"
+                ],
+                questions: [
+                    {
+                        id: "q2_1",
+                        lesson: "1-2 الجذور التربيعية",
+                        page: 22,
+                        type: "mcq",
+                        skill: "تطبيق هندسي",
+                        text: "إذا كانت مساحة كل مربع في المخطط المكون من 3 مربعات متلاصقة تساوي 16 وحدة مربعة، فما محيط المخطط الكلي؟",
+                        options: ["أ) 48 وحدة", "ب) 32 وحدة", "ج) 40 وحدة", "د) 16 وحدة"],
+                        correct: 1,
+                        diagramType: "squares_grid",
+                        solution: "طول ضلع المربع = جذر(16) = 4 وحدات. المخطط المكون من 3 مربعات خطية يمتلك 8 أضلاع خارجية: 8 × 4 = 32 وحدة.",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q2_2",
+                        lesson: "2-2 تقدير الجذور التربيعية",
+                        page: 24,
+                        type: "mcq",
+                        skill: "استنتاج على خط الأعداد",
+                        text: "أي الجذور التربيعية التالية يبين أفضل تمثيل للنقطة ن الواقعة بين 10 و 11 على خط الأعداد وقريبة جداً من 11؟",
+                        options: ["أ) جذر(140)", "ب) جذر(116)", "ج) جذر(121)", "د) جذر(117)"],
+                        correct: 1,
+                        diagramType: "number_line_root",
+                        solution: "10 = جذر(100) و 11 = جذر(121). النقطة ن قريبة جداً من 11 (جذر 121) دون أن تتجاوزه، فالخيار الأنسب هو جذر(116).",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q2_3",
+                        lesson: "5-2 نظرية فيثاغورس",
+                        page: 27,
+                        type: "written",
+                        skill: "اكتشف الخطأ (تحليل)",
+                        text: "يحاول كل من مشعل وإبراهيم إيجاد طول الضلع الثالث جـ في مثلث قائم أضلاعه 12 سم و 16 سم. قال مشعل جـ = 20 سم، بينما قال إبراهيم جـ = 28 سم. أيهما جوابه صحيح؟ فسر إجابتك.",
+                        solution: "إجابة مشعل هي الصحيحة؛ لأن جـ² = 12² + 16² = 144 + 256 = 400، جذر(400) = 20 سم. إبراهيم قام بجمع الضلعين مباشرة دون تربيع.",
+                        diagramType: "pythagoras_triangle_1",
+                        isHigherThinking: true,
+                        higherCategory: "اكتشفي الخطأ والمختلف"
+                    },
+                    {
+                        id: "q2_4",
+                        lesson: "5-2 نظرية فيثاغورس",
+                        page: 28,
+                        type: "numeric",
+                        skill: "تطبيق من واقع الحياة",
+                        text: "وضع سلم طوله 10 أقدام على حائط رأسي، بحيث تبعد حافة السلم السفلى 6 أقدام عن قاعدة الحائط. على أي ارتفاع تصل الحافة العليا للسلم؟ (أدخل الرقم فقط)",
+                        correctNumeric: 8,
+                        diagramType: "ladder_wall",
+                        solution: "باستخدام نظرية فيثاغورس: الارتفاع² = 10² - 6² = 100 - 36 = 64. الارتفاع = جذر(64) = 8 أقدام.",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q2_5",
+                        lesson: "6-2 تطبيقات على نظرية فيثاغورس",
+                        page: 30,
+                        type: "mcq",
+                        skill: "حل مسائل من واقع الحياة",
+                        text: "يقف منطاد هوائي على ارتفاع مع خيط مشدود طوله 115 م ومثبت على الأرض يبعد 75 م عن مسقطه. أي القياسات الآتية أقرب لارتفاع المنطاد؟",
+                        options: ["أ) 55 م", "ب) 87.2 م", "ج) 123 م", "د) 163.5 م"],
+                        correct: 1,
+                        diagramType: "balloon_pythagoras",
+                        solution: "الارتفاع = جذر(115² - 75²) = جذر(13225 - 5625) = جذر(7600) ≈ 87.17 م.",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q2_6",
+                        lesson: "7-2 الأبعاد في المستوى الإحداثي",
+                        page: 32,
+                        type: "mcq",
+                        skill: "هندسة إحداثية",
+                        text: "توضح الخريطة منازل الأصدقاء. إذا كان منزل نواف عند (1، 2) ومنزل خالد عند (7، 10)، فما المسافة المباشرة بين منزليهما؟",
+                        options: ["أ) 8 كلم", "ب) 10 كلم", "ج) 14 كلم", "د) 26 كلم"],
+                        correct: 1,
+                        diagramType: "coord_grid_friends",
+                        solution: "فرق السينات = 7-1 = 6، فرق الصادات = 10-2 = 8. المسافة = جذر(6² + 8²) = جذر(100) = 10 كلم.",
+                        isHigherThinking: false
+                    }
+                ]
+            },
+            {
+                id: "ch3",
+                number: "3",
+                title: "التناسب والتشابه",
+                desc: "العلاقات المتناسبة، معدل التغير، حل التناسب، تشابه المضلعات والتمدد والقياس غير المباشر",
+                icon: "fa-chart-line",
+                color: "from-amber-500 to-orange-600",
+                badgeColor: "bg-amber-100 text-amber-800",
+                lessons: [
+                    "1-3 العلاقات المتناسبة وغير المتناسبة",
+                    "2-3 معدل التغير",
+                    "3-3 المعدل الثابت للتغير",
+                    "4-3 حل التناسب",
+                    "6-3 تشابه المضلعات",
+                    "7-3 التكبير والتصغير",
+                    "8-3 القياس غير المباشر"
+                ],
+                questions: [
+                    {
+                        id: "q3_1",
+                        lesson: "1-3 العلاقات المتناسبة وغير المتناسبة",
+                        page: 34,
+                        type: "written",
+                        skill: "تحد وتبرير",
+                        text: "بلغ عمر خالد 10 سنوات وعمر أخيه أنس 5 سنوات (النسبة 2 إلى 1). هل تبقى العلاقة بين عمريهما متناسبة بعد مرور 5 سنوات؟ وضح إجابتك.",
+                        solution: "لا، ليست متناسبة. بعد 5 سنوات يصبح عمر خالد 15 وعمر أنس 10 (النسبة 15/10 = 1.5 ليست 2). تغيرت النسبة بتغير الزمن.",
+                        isHigherThinking: true,
+                        higherCategory: "تحدي وتفكير ناقد"
+                    },
+                    {
+                        id: "q3_2",
+                        lesson: "2-3 معدل التغير",
+                        page: 37,
+                        type: "mcq",
+                        skill: "تحليل تمثيل بياني",
+                        text: "يبين التمثيل البياني ارتفاع صقر. بين أي نقطتين كان معدل التغير في ارتفاع الصقر سالباً (هبوط)؟",
+                        options: ["أ) من أ إلى ب", "ب) من ب إلى جـ", "ج) من جـ إلى د", "د) من د إلى هـ"],
+                        correct: 1,
+                        diagramType: "falcon_graph",
+                        solution: "القطعة بين ب و جـ تتجه لأسفل مما يعني أن ارتفاع الصقر ينخفض فتكون السرعة ومعدل التغير سالباً.",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q3_3",
+                        lesson: "4-3 حل التناسب",
+                        page: 41,
+                        type: "mcq",
+                        skill: "حل تناسب واستنتاج",
+                        text: "يجري عداء بمعدل 216 م في 18 ثانية. فكم دقيقة يحتاجها لقطع مسافة 780 م بهذا المعدل؟",
+                        options: ["أ) دقيقة واحدة", "ب) دقيقتان", "ج) 3 دقائق", "د) 5 دقائق"],
+                        correct: 0,
+                        solution: "السرعة = 216 ÷ 18 = 12 م/ث. الزمن بالثواني = 780 ÷ 12 = 65 ثانية ≈ دقيقة واحدة و 5 ثواني (أي دقيقة واحدة تقريباً).",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q3_4",
+                        lesson: "6-3 تشابه المضلعات",
+                        page: 43,
+                        type: "mcq",
+                        skill: "تطبيق على المضلعات",
+                        text: "إذا كان المثلث أ ب جـ يشابه المثلث س ص ع، وكان طول أ ب = 18 سم، وس ص = 27 سم، وكان ب جـ = 24 سم، فما طول ص ع؟",
+                        options: ["أ) 13.5 سم", "ب) 22 سم", "ج) 36 سم", "د) 5.25 سم"],
+                        correct: 2,
+                        solution: "نسبة التشابه = 18 / 27 = 2 / 3. إذن 24 / ص ع = 2 / 3  =>  ص ع = (24 × 3) / 2 = 36 سم.",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q3_5",
+                        lesson: "8-3 القياس غير المباشر",
+                        page: 47,
+                        type: "mcq",
+                        skill: "قياس غير مباشر",
+                        text: "يقف رجل طوله 6 أقدام على بعد 21 قدماً من قاعدة سارية علم. إذا كان طول ظل الرجل 9 أقدام، فما ارتفاع سارية العلم؟",
+                        options: ["أ) 14 قدماً", "ب) 20 قدماً", "ج) 30 قدماً", "د) 31.5 قدماً"],
+                        correct: 1,
+                        diagramType: "flagpole_shadow",
+                        solution: "طول ظل السارية الكلي = 21 + 9 = 30 قدماً. التناسب: الارتفاع / 6 = 30 / 9  =>  الارتفاع = (30 × 6) / 9 = 20 قدماً.",
+                        isHigherThinking: false
+                    }
+                ]
+            },
+            {
+                id: "ch4",
+                number: "4",
+                title: "النسبة المئوية",
+                desc: "إيجاد النسب المئوية ذهنياً، التقدير، المعادلة المئوية والتغير المئوي",
+                icon: "fa-percent",
+                color: "from-purple-600 to-indigo-800",
+                badgeColor: "bg-purple-100 text-purple-700",
+                lessons: [
+                    "1-4 إيجاد النسب المئوية ذهنيا",
+                    "2-4 النسبة المئوية والتقدير",
+                    "4-4 المعادلة المئوية",
+                    "5-4 التغير المئوي"
+                ],
+                questions: [
+                    {
+                        id: "q4_1",
+                        lesson: "1-4 إيجاد النسب المئوية ذهنيا",
+                        page: 49,
+                        type: "written",
+                        skill: "اكتشف الخطأ",
+                        text: "يحاول ناصر وعلي حساب 10% من 95. قال ناصر الإجابة 0.95 بينما قال علي الإجابة 9.5. أيهما على صواب؟ فسر ذلك.",
+                        solution: "علي على صواب؛ لأن 10% تعني القسمة على 10 فتتحرك الفاصلة منزلة واحدة لليسار لتصبح 9.5. أما ناصر فقد قسم على 100.",
+                        isHigherThinking: true,
+                        higherCategory: "اكتشفي الخطأ والمختلف"
+                    },
+                    {
+                        id: "q4_2",
+                        lesson: "2-4 النسبة المئوية والتقدير",
+                        page: 52,
+                        type: "mcq",
+                        skill: "تقدير وتطبيق",
+                        text: "شارك 325 طالباً في سباق جري، ووصل منهم 150 طالباً فقط لخط النهاية. قدر النسبة المئوية للطلاب الذين وصلوا:",
+                        options: ["أ) 40%", "ب) 45%", "ج) 55%", "د) 60%"],
+                        correct: 1,
+                        solution: "150 / 325 تقرب إلى 150 / 330 = 15 / 33 ≈ 45%.",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q4_3",
+                        lesson: "4-4 المعادلة المئوية",
+                        page: 54,
+                        type: "mcq",
+                        skill: "حساب عمولة ومبيعات",
+                        text: "يتقاضى سعيد 7% عمولة على مبيعاته. إذا باع بمبلغ 129,900 ريال، فكم تكون عمولته؟",
+                        options: ["أ) 909 ريالات", "ب) 9093 ريالا", "ج) 9293 ريالا", "د) 90930 ريالا"],
+                        correct: 1,
+                        solution: "العمولة = 129900 × 0.07 = 9093 ريالا.",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q4_4",
+                        lesson: "5-4 التغير المئوي",
+                        page: 56,
+                        type: "numeric",
+                        skill: "تغير مئوي وتخفيض",
+                        text: "اشترت غادة تلفازاً ثمنه الأصلي 1250 ريالا بنسبة تخفيض 30%. ما قيمة التخفيض بالريال؟ (أدخل الرقم فقط)",
+                        correctNumeric: 375,
+                        solution: "قيمة التخفيض = 1250 × 0.30 = 375 ريالا.",
+                        isHigherThinking: false
+                    }
+                ]
+            },
+            {
+                id: "ch5",
+                number: "5",
+                title: "الهندسة والاستدلال المكاني",
+                desc: "علاقات الزوايا، المضلعات والزوايا، التطابق، التماثل، الانعكاس، الانسحاب والدوران",
+                icon: "fa-draw-polygon",
+                color: "from-rose-600 to-pink-700",
+                badgeColor: "bg-rose-100 text-rose-700",
+                lessons: [
+                    "1-5 علاقات الزوايا والمستقيمات",
+                    "3-5 المضلعات والزوايا",
+                    "4-5 تطابق المضلعات",
+                    "5-5 التماثل",
+                    "6-5 الانعكاس",
+                    "7-5 الانسحاب",
+                    "8-5 الدوران"
+                ],
+                questions: [
+                    {
+                        id: "q5_1",
+                        lesson: "1-5 علاقات الزوايا والمستقيمات",
+                        page: 59,
+                        type: "mcq",
+                        skill: "زوايا ومستقيمات متوازية",
+                        text: "في الشكل الموضح، إذا كان المستقيمان أ و ب متوازيين وكان قياس الزاوية المتبادلة مع س هو 70°، فما قيمة س؟",
+                        options: ["أ) 70°", "ب) 80°", "ج) 110°", "د) 180°"],
+                        correct: 2,
+                        diagramType: "parallel_lines_angles",
+                        solution: "الزاويتان المتكاملتان على خط مستقيم: س + 70° = 180°  =>  س = 110°.",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q5_2",
+                        lesson: "3-5 المضلعات والزوايا",
+                        page: 60,
+                        type: "numeric",
+                        skill: "تحد وتحليل هندسي",
+                        text: "ما عدد أضلاع مضلع منتظم قياس زاويته الداخلية الواحدة يساوي 160°؟ (أدخل عدد الأضلاع فقط)",
+                        correctNumeric: 18,
+                        solution: "قياس الزاوية الخارجية = 180° - 160° = 20°. عدد الأضلاع = 360° / 20° = 18 ضلعاً.",
+                        isHigherThinking: true,
+                        higherCategory: "تحدي وتفكير ناقد"
+                    },
+                    {
+                        id: "q5_3",
+                        lesson: "6-5 الانعكاس",
+                        page: 66,
+                        type: "written",
+                        skill: "استنتاج وبصريات",
+                        text: "النقطة ك (7، 2) هي صورة النقطة ك' (7، -2) بالانعكاس. حدد دون رسم حول أي محور تم الانعكاس ووضح سبب استنتاجك.",
+                        solution: "تم الانعكاس حول محور السينات (x-axis)؛ لأن الإحداثي السيني بقي ثابتاً (7) بينما انعكست إشارة الإحداثي الصادي من -2 إلى 2.",
+                        isHigherThinking: true,
+                        higherCategory: "قارني واستنتجي"
+                    },
+                    {
+                        id: "q5_4",
+                        lesson: "7-5 الانسحاب",
+                        page: 69,
+                        type: "mcq",
+                        skill: "انسحاب إحداثي",
+                        text: "إذا أجري انسحاب للنقطة أ (3، 5) بمقدار 4 وحدات لليمين و 3 وحدات لأسفل، فما إحداثيات الصورة الجديدة أ'؟",
+                        options: ["أ) (7، 2)", "ب) (1، 8)", "ج) (7، 8)", "د) (-1، 2)"],
+                        correct: 0,
+                        solution: "الإحداثي الجديد = (3 + 4 ، 5 - 3) = (7 ، 2).",
+                        isHigherThinking: false
+                    },
+                    {
+                        id: "q5_5",
+                        lesson: "8-5 الدوران",
+                        page: 71,
+                        type: "mcq",
+                        skill: "دوران في المستوى الإحداثي",
+                        text: "صورة النقطة أ (3، 5) هي أ' (-5، 3) بدوران حول نقطة الأصل بعكس عقارب الساعة. ما زاوية هذا الدوران؟",
+                        options: ["أ) 90°", "ب) 180°", "ج) 270°", "د) 360°"],
+                        correct: 0,
+                        solution: "قاعدة الدوران 90° عكس عقارب الساعة تحول (س ، ص) إلى (-ص ، س). تحولت (3 ، 5) إلى (-5 ، 3)، فالزاوية 90°.",
+                        isHigherThinking: false
+                    }
+                ]
+            }
+        ];
+
+        // System Badges Definitions
+        const BADGES_DEFINITIONS = [
+            { id: "b1", name: "وسام البداية", icon: "fa-rocket", desc: "عند حل أول سؤال بالمنصة بنجاح", color: "from-blue-500 to-cyan-500" },
+            { id: "b2", name: "وسام المثابرة", icon: "fa-fire", desc: "عند محاولة حل 5 أسئلة مختلفة", color: "from-orange-500 to-amber-500" },
+            { id: "b3", name: "وسام الدقة", icon: "fa-bullseye", desc: "عند الإجابة عن 5 أسئلة موضوعية صحيحة", color: "from-emerald-500 to-teal-500" },
+            { id: "b4", name: "وسام المحللة الرياضية", icon: "fa-brain", desc: "إكمال 3 أسئلة من مختبر التفكير الرياضي", color: "from-purple-500 to-indigo-500" },
+            { id: "b5", name: "وسام التفكير الناقد", icon: "fa-comments", desc: "كتابة تبرير أو خطوات حل كاملة مسجلة", color: "from-pink-500 to-rose-500" },
+            { id: "b6", name: "وسام إتقان الفصل", icon: "fa-graduation-cap", desc: "حل جميع أسئلة أحد الفصول الدراسية", color: "from-yellow-500 to-amber-600" },
+            { id: "b7", name: "وسام التميز الرياضي", icon: "fa-crown", desc: "الوصول إلى 300 نقطة إنجاز بالمنصة", color: "from-amber-400 to-yellow-300" }
+        ];
+
+        // State Store
+        let state = {
+            currentView: 'home', // home, chapter, question, lab, badges
+            activeChapterId: null,
+            activeQuestionIndex: 0,
+            activeFilterLesson: 'all',
+            points: 0,
+            solvedQuestions: {}, // qId -> { solved: true, answer: val, correct: bool, justification: str }
+            earnedBadges: [],
+            savedReviewList: [], // Array of qIds
+            teacherNotes: {}, // qId -> note
+            studentAttempts: 0,
+            correctCount: 0
+        };
+
+        // Initialize App on DOM Loaded
+        window.onload = function() {
+            loadUserData();
+            updateHeaderState();
+            renderView();
+        };
+
+        // Persistence Helpers
+        function saveUserData() {
+            localStorage.setItem('math_challenge_state_v2', JSON.stringify({
+                points: state.points,
+                solvedQuestions: state.solvedQuestions,
+                earnedBadges: state.earnedBadges,
+                savedReviewList: state.savedReviewList,
+                studentAttempts: state.studentAttempts,
+                correctCount: state.correctCount
+            }));
+            updateHeaderState();
+        }
+
+        function loadUserData() {
+            const saved = localStorage.getItem('math_challenge_state_v2');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    state.points = parsed.points || 0;
+                    state.solvedQuestions = parsed.solvedQuestions || {};
+                    state.earnedBadges = parsed.earnedBadges || [];
+                    state.savedReviewList = parsed.savedReviewList || [];
+                    state.studentAttempts = parsed.studentAttempts || 0;
+                    state.correctCount = parsed.correctCount || 0;
+                } catch(e) {
+                    console.error("Error loading user state", e);
+                }
+            }
+        }
+
+        function updateHeaderState() {
+            document.getElementById('header-points').innerText = state.points;
+            document.getElementById('header-badges').innerText = state.earnedBadges.length;
+        }
+
+        // Router Navigation
+        function navigateTo(view, params = {}) {
+            state.currentView = view;
+            if (params.chapterId) state.activeChapterId = params.chapterId;
+            if (params.questionIndex !== undefined) state.activeQuestionIndex = params.questionIndex;
+            if (params.lesson) state.activeFilterLesson = params.lesson;
+            
+            // Update Breadcrumb UI
+            const bcElem = document.getElementById('breadcrumb-current');
+            const bcText = document.getElementById('breadcrumb-text');
+            if (view === 'home') {
+                bcElem.classList.add('hidden');
+            } else {
+                bcElem.classList.remove('hidden');
+                if (view === 'chapter') {
+                    const ch = CHAPTERS_DATA.find(c => c.id === state.activeChapterId);
+                    bcText.innerText = ch ? ch.title : 'الفصل';
+                } else if (view === 'lab') {
+                    bcText.innerText = 'مختبر التفكير الرياضي';
+                } else if (view === 'badges') {
+                    bcText.innerText = 'سجل الأوسمة والإنجازات';
+                } else if (view === 'question') {
+                    bcText.innerText = 'تحدّي السؤالالتفاعلي';
+                }
+            }
+
+            renderView();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Dynamic View Renderer
+        function renderView() {
+            const container = document.getElementById('app-container');
+            if (state.currentView === 'home') {
+                container.innerHTML = renderHomeView();
+            } else if (state.currentView === 'chapter') {
+                container.innerHTML = renderChapterView();
+            } else if (state.currentView === 'question') {
+                container.innerHTML = renderQuestionView();
+            } else if (state.currentView === 'lab') {
+                container.innerHTML = renderLabView();
+            } else if (state.currentView === 'badges') {
+                container.innerHTML = renderBadgesView();
+            }
+        }
+
+        // ==========================================
+        // VIEW RENDERERS
+        // ==========================================
+
+        // 1. Home View
+        function renderHomeView() {
+            const totalQuestionsCount = CHAPTERS_DATA.reduce((acc, c) => acc + c.questions.length, 0);
+            const solvedCount = Object.keys(state.solvedQuestions).length;
+            const overallPercent = Math.round((solvedCount / totalQuestionsCount) * 100) || 0;
+
+            let html = `
+                <!-- Hero Greeting Banner -->
+                <div class="relative bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-2xl mb-10 overflow-hidden border border-indigo-700/50">
+                    <div class="absolute -left-10 -bottom-10 w-60 h-60 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute right-10 top-0 text-indigo-500/10 text-9xl font-black pointer-events-none">∑</div>
+                    
+                    <div class="relative z-10 max-w-3xl">
+                        <div class="inline-flex items-center gap-2 bg-amber-400/20 text-amber-300 border border-amber-400/30 px-3 py-1 rounded-full text-xs font-bold mb-4">
+                            <i class="fa-solid fa-sparkles"></i> مرحباً بكِ في منصتك المتميزة
+                        </div>
+                        <h2 class="text-2xl sm:text-4xl font-black mb-3 leading-tight">
+                            أهلاً بكِ في «تحدّي الرياضيات» <br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-400">نحو التفكير والإبداع</span>
+                        </h2>
+                        <p class="text-indigo-100 text-sm sm:text-base font-semibold mb-6 leading-relaxed">
+                            «كل مسألة فرصة لاكتشاف طريقة جديدة للتفكير»
+                        </p>
+                        
+                        <!-- Quick Navigation Action Buttons -->
+                        <div class="flex flex-wrap gap-3">
+                            <button onclick="startFirstUnsolved()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-bold px-6 py-3 rounded-2xl shadow-lg flex items-center gap-2 transition-transform hover:scale-105">
+                                <i class="fa-solid fa-play"></i> ابدئي التحدي الآن
+                            </button>
+                            <button onclick="navigateTo('lab')" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-3 rounded-2xl shadow-md flex items-center gap-2 transition-transform hover:scale-105">
+                                <i class="fa-solid fa-brain"></i> مختبر التفكير الرياضي
+                            </button>
+                            <button onclick="playRandomQuestion()" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold px-5 py-3 rounded-2xl backdrop-blur-md flex items-center gap-2 transition-colors">
+                                <i class="fa-solid fa-shuffle"></i> سؤال عشوائي
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Overall Student Progress Widget -->
+                    <div class="mt-8 pt-6 border-t border-indigo-700/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-700/80 flex items-center justify-center text-amber-300 font-bold text-xl">
+                                ${overallPercent}%
+                            </div>
+                            <div>
+                                <p class="text-indigo-200 font-semibold">مستوى إنجاز الأسئلة العام:</p>
+                                <p class="font-bold text-white text-base">${solvedCount} من إجمالي ${totalQuestionsCount} سؤالاً محلولاً</p>
+                            </div>
+                        </div>
+                        <div class="w-full sm:w-64 bg-indigo-950/80 rounded-full h-3 overflow-hidden p-0.5 border border-indigo-700">
+                            <div class="bg-gradient-to-r from-amber-400 to-emerald-400 h-full rounded-full transition-all duration-500" style="width: ${overallPercent}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Title -->
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h3 class="text-2xl font-black text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-book-open-reader text-brand-primary"></i>
+                            فصول المنهج الدراسي (الصف الثاني المتوسط)
+                        </h3>
+                        <p class="text-xs text-slate-500 font-semibold mt-1">اختاري الفصل لبدء حل الأسئلة وتحديات مهارات التفكير العليا</p>
+                    </div>
+                </div>
+
+                <!-- Chapters Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            `;
+
+            CHAPTERS_DATA.forEach(ch => {
+                const chSolved = ch.questions.filter(q => state.solvedQuestions[q.id]?.solved).length;
+                const chPercent = Math.round((chSolved / ch.questions.length) * 100) || 0;
+
+                html += `
+                    <div class="gamified-card bg-white rounded-3xl p-6 border border-slate-200/80 flex flex-col justify-between relative overflow-hidden">
+                        <div class="top-accent h-2 w-full bg-gradient-to-r ${ch.color} absolute top-0 right-0"></div>
+                        
+                        <div>
+                            <div class="flex items-center justify-between mb-4 mt-2">
+                                <span class="text-xs font-bold px-3 py-1 rounded-full ${ch.badgeColor}">
+                                    الفصل ${ch.number}
+                                </span>
+                                <div class="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-700 text-lg">
+                                    <i class="fa-solid ${ch.icon}"></i>
+                                </div>
+                            </div>
+
+                            <h4 class="text-xl font-black text-slate-800 mb-2 hover:text-brand-primary transition-colors cursor-pointer" onclick="navigateTo('chapter', {chapterId: '${ch.id}'})">
+                                ${ch.title}
+                            </h4>
+                            <p class="text-xs text-slate-500 leading-relaxed mb-6 line-clamp-2">
+                                ${ch.desc}
+                            </p>
+                        </div>
+
+                        <div>
+                            <!-- Progress Bar -->
+                            <div class="mb-4 bg-slate-100 rounded-2xl p-3 border border-slate-200/60">
+                                <div class="flex justify-between text-xs font-bold mb-1.5">
+                                    <span class="text-slate-600">نسبة الإنجاز:</span>
+                                    <span class="text-brand-primary">${chPercent}%</span>
+                                </div>
+                                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                                    <div class="bg-gradient-to-r ${ch.color} h-full rounded-full transition-all duration-300" style="width: ${chPercent}%"></div>
+                                </div>
+                                <div class="mt-2 text-[11px] text-slate-400 font-semibold text-left">
+                                    ${chSolved} / ${ch.questions.length} سؤالاً
+                                </div>
+                            </div>
+
+                            <button onclick="navigateTo('chapter', {chapterId: '${ch.id}'})" class="w-full bg-slate-100 hover:bg-brand-primary hover:text-white text-slate-700 font-bold py-3 rounded-2xl transition-all flex items-center justify-center gap-2 text-sm shadow-sm">
+                                <span>تصفح الأسئلة والتحديات</span>
+                                <i class="fa-solid fa-arrow-left text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            return html;
+        }
+
+        // 2. Chapter Questions List View
+        function renderChapterView() {
+            const chapter = CHAPTERS_DATA.find(c => c.id === state.activeChapterId) || CHAPTERS_DATA[0];
+            
+            // Filter by lesson if active
+            let questionsList = chapter.questions;
+            if (state.activeFilterLesson !== 'all') {
+                questionsList = questionsList.filter(q => q.lesson === state.activeFilterLesson);
+            }
+
+            let html = `
+                <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full ${chapter.badgeColor} mb-2 inline-block">
+                                الفصل ${chapter.number}
+                            </span>
+                            <h2 class="text-2xl sm:text-3xl font-black text-slate-800">${chapter.title}</h2>
+                            <p class="text-xs sm:text-sm text-slate-500 mt-1">${chapter.desc}</p>
+                        </div>
+                        <button onclick="navigateTo('home')" class="self-start md:self-auto bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-right"></i> العودة للفصول
+                        </button>
+                    </div>
+
+                    <!-- Lessons Filter Bar -->
+                    <div class="border-t border-slate-100 pt-4">
+                        <label class="block text-xs font-bold text-slate-600 mb-2">تصفية حسب الدرس:</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="filterLesson('all')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${state.activeFilterLesson === 'all' ? 'bg-brand-primary text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
+                                جميع الدروس (${chapter.questions.length})
+                            </button>
+            `;
+
+            chapter.lessons.forEach(les => {
+                const count = chapter.questions.filter(q => q.lesson === les).length;
+                const active = state.activeFilterLesson === les;
+                html += `
+                    <button onclick="filterLesson('${les}')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${active ? 'bg-brand-primary text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
+                        ${les} (${count})
+                    </button>
+                `;
+            });
+
+            html += `
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questions Interactive Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            `;
+
+            questionsList.forEach((q, idx) => {
+                const isSolved = state.solvedQuestions[q.id]?.solved;
+                const isSaved = state.savedReviewList.includes(q.id);
+
+                html += `
+                    <div class="gamified-card bg-white rounded-2xl p-5 border ${isSolved ? 'border-emerald-200 bg-emerald-50/20' : 'border-slate-200'} flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-lg">
+                                    سؤال #${idx + 1} • ص ${q.page}
+                                </span>
+                                <div class="flex items-center gap-2">
+                                    ${q.isHigherThinking ? '<span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full"><i class="fa-solid fa-brain"></i> مهارات تفكير عليا</span>' : ''}
+                                    <button onclick="toggleSaveQuestion('${q.id}', event)" class="text-slate-400 hover:text-amber-500 text-sm p-1">
+                                        <i class="${isSaved ? 'fa-solid text-amber-500' : 'fa-regular'} fa-bookmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <p class="text-xs font-bold text-indigo-600 mb-1">${q.lesson}</p>
+                            <h4 class="text-sm font-bold text-slate-800 mb-4 line-clamp-2 leading-relaxed">
+                                ${q.text}
+                            </h4>
+                        </div>
+
+                        <div class="flex items-center justify-between border-t border-slate-100 pt-3 mt-2">
+                            <span class="text-xs font-semibold ${isSolved ? 'text-emerald-600 font-bold' : 'text-slate-400'}">
+                                ${isSolved ? '<i class="fa-solid fa-circle-check"></i> تم الحل بنجاح' : '<i class="fa-regular fa-circle"></i> لم يحل بعد'}
+                            </span>
+                            <button onclick="openQuestionDirect('${q.id}')" class="bg-brand-primary hover:bg-indigo-700 text-white font-bold px-4 py-1.5 rounded-xl text-xs flex items-center gap-1.5 shadow-sm">
+                                <span>حل المسألة</span>
+                                <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            return html;
+        }
+
+        // Filter Lesson Handler
+        function filterLesson(les) {
+            state.activeFilterLesson = les;
+            renderView();
+        }
+
+        // 3. Question Interactive View
+        function renderQuestionView() {
+            const allQ = getAllQuestions();
+            const currentQ = allQ[state.activeQuestionIndex] || allQ[0];
+            const isSaved = state.savedReviewList.includes(currentQ.id);
+            const userSol = state.solvedQuestions[currentQ.id] || {};
+
+            let html = `
+                <div class="max-w-4xl mx-auto">
+                    <!-- Progress & Navigation Top Bar -->
+                    <div class="flex items-center justify-between bg-white rounded-2xl p-4 border border-slate-200 shadow-sm mb-6">
+                        <button onclick="prevQuestion()" ${state.activeQuestionIndex === 0 ? 'disabled class="opacity-40 cursor-not-allowed text-slate-400 font-bold text-xs flex items-center gap-1"' : 'class="text-slate-700 hover:text-brand-primary font-bold text-xs flex items-center gap-1"'}>
+                            <i class="fa-solid fa-chevron-right"></i> السؤال السابق
+                        </button>
+
+                        <div class="text-center">
+                            <span class="text-xs font-extrabold text-brand-primary bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">
+                                السؤال ${state.activeQuestionIndex + 1} من إجمالي ${allQ.length}
+                            </span>
+                        </div>
+
+                        <button onclick="nextQuestion()" ${state.activeQuestionIndex === allQ.length - 1 ? 'disabled class="opacity-40 cursor-not-allowed text-slate-400 font-bold text-xs flex items-center gap-1"' : 'class="text-slate-700 hover:text-brand-primary font-bold text-xs flex items-center gap-1"'}>
+                            السؤال التالي <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                    </div>
+
+                    <!-- Question Main Card -->
+                    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-lg mb-8 relative">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4 mb-6">
+                            <div>
+                                <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg">
+                                    ${currentQ.lesson} • صفحة ${currentQ.page}
+                                </span>
+                                ${currentQ.isHigherThinking ? `<span class="mr-2 text-xs font-bold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-lg"><i class="fa-solid fa-brain"></i> ${currentQ.skill}</span>` : ''}
+                            </div>
+                            <button onclick="toggleSaveQuestion('${currentQ.id}')" class="text-xs font-bold ${isSaved ? 'text-amber-600 bg-amber-50' : 'text-slate-500 bg-slate-100'} px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition-colors">
+                                <i class="${isSaved ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
+                                <span>${isSaved ? 'محفوظ في المراجعة' : 'حفظ للمراجعة'}</span>
+                            </button>
+                        </div>
+
+                        <!-- Question Text Original -->
+                        <h3 class="text-lg sm:text-xl font-black text-slate-800 leading-relaxed mb-6">
+                            ${currentQ.text}
+                        </h3>
+
+                        <!-- Render SVG / Diagram Graphic if available -->
+                        ${currentQ.diagramType ? renderDiagramBox(currentQ.diagramType) : ''}
+
+                        <!-- Dynamic Answer Input Area based on Question Type -->
+                        <div class="bg-slate-50/80 rounded-2xl p-5 border border-slate-200/80 mb-6">
+                            <h4 class="text-xs font-bold text-slate-700 mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-pen-to-square text-brand-primary"></i>
+                                طريقة الإجابة والحل:
+                            </h4>
+            `;
+
+            if (currentQ.type === 'mcq') {
+                html += `<div class="space-y-3">`;
+                currentQ.options.forEach((opt, oIdx) => {
+                    const isSelected = userSol.userAnswer === oIdx;
+                    html += `
+                        <label class="flex items-center p-4 rounded-xl border-2 ${isSelected ? 'border-brand-primary bg-indigo-50/50' : 'border-slate-200 bg-white'} hover:border-indigo-300 cursor-pointer transition-all">
+                            <input type="radio" name="mcq_opt" value="${oIdx}" ${isSelected ? 'checked' : ''} class="w-4 h-4 text-brand-primary border-slate-300 focus:ring-brand-primary">
+                            <span class="mr-3 text-sm font-bold text-slate-800">${opt}</span>
+                        </label>
+                    `;
+                });
+                html += `</div>`;
+            } else if (currentQ.type === 'numeric') {
+                html += `
+                    <div class="max-w-md">
+                        <input type="number" step="any" id="numeric-input" value="${userSol.userAnswer !== undefined ? userSol.userAnswer : ''}" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-primary font-bold text-lg text-center" placeholder="أدخلي القيمة العددية هنا...">
+                    </div>
+                `;
+            } else {
+                // Written / Justification
+                html += `
+                    <div>
+                        <textarea id="written-input" rows="4" class="w-full p-4 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-primary text-sm font-semibold text-slate-800" placeholder="اكتبي خطوات الحل والتفسير الرياضي بالتفصيل هنا...">${userSol.writtenSteps || ''}</textarea>
+                    </div>
+                `;
+            }
+
+            html += `
+                        </div>
+
+                        <!-- Scratchpad / Steps Area -->
+                        <div class="mb-6">
+                            <button type="button" onclick="toggleScratchpad()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
+                                <i class="fa-solid fa-note-sticky"></i> إظهار/إخفاء مساحة المسودة وخطوات التفكير
+                            </button>
+                            <div id="scratchpad-box" class="hidden mt-2">
+                                <textarea id="scratchpad-text" rows="2" class="w-full p-3 text-xs bg-amber-50/60 border border-amber-200 rounded-xl text-amber-900" placeholder="مساحة مسودة حرة لكتابة الأرقام أو الملاحظات مؤقتاً...">${userSol.scratchpad || ''}</textarea>
+                            </div>
+                        </div>
+
+                        <!-- Submit / Verify Button -->
+                        <div class="flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-6">
+                            <button onclick="checkQuestionAnswer('${currentQ.id}')" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-bold px-8 py-3 rounded-2xl shadow-lg flex items-center gap-2 transition-transform hover:scale-105">
+                                <i class="fa-solid fa-check-double"></i> تحقق وتقييم الإجابة
+                            </button>
+
+                            <button onclick="toggleHintModal('${currentQ.id}')" class="text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 px-4 py-2.5 rounded-xl border border-amber-200 flex items-center gap-1.5">
+                                <i class="fa-regular fa-lightbulb"></i> طلب تلميح بسيط
+                            </button>
+                        </div>
+
+                        <!-- Immediate Feedback Box -->
+                        <div id="feedback-result" class="mt-6 ${userSol.solved ? '' : 'hidden'}">
+                            ${userSol.solved ? renderFeedbackBox(currentQ, userSol) : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return html;
+        }
+
+        // Diagram Renderer Helper (Generates Clean Interactive Math SVGs)
+        function renderDiagramBox(type) {
+            let svgContent = '';
+            if (type === 'number_line_1') {
+                svgContent = `
+                    <svg viewBox="0 0 600 120" class="w-full max-w-lg mx-auto">
+                        <line x1="40" y1="60" x2="560" y2="60" stroke="#334155" stroke-width="3" marker-end="url(#arrow)" />
+                        <!-- Ticks -->
+                        <line x1="60" y1="50" x2="60" y2="70" stroke="#334155" stroke-width="2" />
+                        <text x="60" y="95" text-anchor="middle" font-weight="bold" font-size="14" fill="#1e293b">0</text>
+
+                        <line x1="180" y1="50" x2="180" y2="70" stroke="#334155" stroke-width="2" />
+                        <text x="180" y="95" text-anchor="middle" font-weight="bold" font-size="14" fill="#1e293b">1/4</text>
+
+                        <line x1="300" y1="50" x2="300" y2="70" stroke="#334155" stroke-width="2" />
+                        <text x="300" y="95" text-anchor="middle" font-weight="bold" font-size="14" fill="#1e293b">1/2</text>
+
+                        <line x1="420" y1="50" x2="420" y2="70" stroke="#334155" stroke-width="2" />
+                        <text x="420" y="95" text-anchor="middle" font-weight="bold" font-size="14" fill="#1e293b">3/4</text>
+
+                        <line x1="540" y1="50" x2="540" y2="70" stroke="#334155" stroke-width="2" />
+                        <text x="540" y="95" text-anchor="middle" font-weight="bold" font-size="14" fill="#1e293b">1</text>
+
+                        <!-- Points -->
+                        <circle cx="100" cy="60" r="6" fill="#4f46e5" />
+                        <text x="100" y="40" text-anchor="middle" font-weight="bold" font-size="16" fill="#4f46e5">س</text>
+
+                        <circle cx="240" cy="60" r="6" fill="#059669" />
+                        <text x="240" y="40" text-anchor="middle" font-weight="bold" font-size="16" fill="#059669">ص</text>
+
+                        <circle cx="264" cy="60" r="6" fill="#dc2626" />
+                        <text x="264" y="40" text-anchor="middle" font-weight="bold" font-size="16" fill="#dc2626">ع</text>
+
+                        <circle cx="450" cy="60" r="6" fill="#d97706" />
+                        <text x="450" y="40" text-anchor="middle" font-weight="bold" font-size="16" fill="#d97706">ل</text>
+                    </svg>
+                `;
+            } else if (type === 'pythagoras_triangle_1') {
+                svgContent = `
+                    <svg viewBox="0 0 400 200" class="w-full max-w-xs mx-auto">
+                        <polygon points="50,160 250,160 250,40" fill="#e0e7ff" stroke="#4f46e5" stroke-width="3" />
+                        <rect x="230" y="140" width="20" height="20" fill="none" stroke="#4f46e5" stroke-width="2" />
+                        <text x="150" y="185" font-weight="bold" font-size="14" fill="#1e293b" text-anchor="middle">16 سم</text>
+                        <text x="275" y="105" font-weight="bold" font-size="14" fill="#1e293b">12 سم</text>
+                        <text x="130" y="90" font-weight="bold" font-size="16" fill="#4f46e5">جـ (الوتر)</text>
+                    </svg>
+                `;
+            } else if (type === 'ladder_wall') {
+                svgContent = `
+                    <svg viewBox="0 0 350 220" class="w-full max-w-xs mx-auto">
+                        <!-- Wall -->
+                        <rect x="220" y="20" width="30" height="170" fill="#cbd5e1" stroke="#475569" stroke-width="2" />
+                        <!-- Ground -->
+                        <line x1="20" y1="190" x2="300" y2="190" stroke="#334155" stroke-width="4" />
+                        <!-- Ladder -->
+                        <line x1="80" y1="190" x2="220" y2="40" stroke="#d97706" stroke-width="6" stroke-linecap="round" />
+                        <text x="130" y="105" font-weight="bold" font-size="14" fill="#d97706" transform="rotate(-45 130 105)">10 أقدام</text>
+                        <text x="150" y="210" font-weight="bold" font-size="14" fill="#1e293b">6 أقدام</text>
+                    </svg>
+                `;
+            } else {
+                svgContent = `
+                    <div class="p-6 bg-indigo-50/50 rounded-2xl text-center border border-indigo-100">
+                        <i class="fa-solid fa-chart-area text-4xl text-brand-primary mb-2"></i>
+                        <p class="text-xs font-bold text-slate-600">شكل هندسي توضيحي مصاحب للمسألة</p>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 mb-6 relative group">
+                    <button onclick="openZoomModal('${type}')" class="absolute top-3 left-3 bg-white/90 hover:bg-white text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1 transition-all">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> تكبير الشكل
+                    </button>
+                    ${svgContent}
+                </div>
+            `;
+        }
+
+        // Feedback Renderer Helper
+        function renderFeedbackBox(q, sol) {
+            if (q.type === 'mcq' || q.type === 'numeric') {
+                const isCorrect = sol.correct;
+                return `
+                    <div class="p-5 rounded-2xl border ${isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'}">
+                        <div class="flex items-center gap-3 mb-2 font-black text-base">
+                            <i class="fa-solid ${isCorrect ? 'fa-circle-check text-emerald-600 text-xl' : 'fa-circle-xmark text-rose-600 text-xl'}"></i>
+                            <span>${isCorrect ? 'ممتازة! إجابة صحيحة دقيقة' : 'حاولي مرة أخرى، اجعلي الخطوات أكثر دقة'}</span>
+                        </div>
+                        <p class="text-xs font-bold leading-relaxed mb-1">توضيح طريقة الحل المعتمدة:</p>
+                        <p class="text-xs leading-relaxed font-medium">${q.solution}</p>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="p-5 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-900">
+                        <div class="flex items-center gap-2 mb-2 font-black text-sm">
+                            <i class="fa-solid fa-square-check text-indigo-600"></i>
+                            <span>تم تسجيل إجابتك وخطواتك بنجاح!</span>
+                        </div>
+                        <p class="text-xs font-bold mb-1">نموذج الإجابة والتفسير الرياضي المثالي:</p>
+                        <p class="text-xs font-medium leading-relaxed">${q.solution}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Toggle Scratchpad Box
+        function toggleScratchpad() {
+            const box = document.getElementById('scratchpad-box');
+            box.classList.toggle('hidden');
+        }
+
+        // Check Answer Logic
+        function checkQuestionAnswer(qId) {
+            const allQ = getAllQuestions();
+            const q = allQ.find(item => item.id === qId);
+            if (!q) return;
+
+            let isCorrect = false;
+            let userVal = null;
+            let steps = '';
+
+            if (q.type === 'mcq') {
+                const selectedOpt = document.querySelector('input[name="mcq_opt"]:checked');
+                if (!selectedOpt) {
+                    alert('يرجى اختيار أحد الخيارات قبل التحقق!');
+                    return;
+                }
+                userVal = parseInt(selectedOpt.value);
+                isCorrect = userVal === q.correct;
+            } else if (q.type === 'numeric') {
+                const inputVal = document.getElementById('numeric-input').value;
+                if (!inputVal) {
+                    alert('يرجى إدخال الإجابة العددية أولاً!');
+                    return;
+                }
+                userVal = parseFloat(inputVal);
+                isCorrect = Math.abs(userVal - q.correctNumeric) < 0.01;
+            } else {
+                // Written steps
+                steps = document.getElementById('written-input').value;
+                if (!steps || steps.trim().length < 3) {
+                    alert('يرجى كتابة خطوات الحل والتفسير الرياضي قبل التسليم!');
+                    return;
+                }
+                isCorrect = true; // Recorded for manual teacher review
+            }
+
+            // Award Points & Badge Logic
+            const scratch = document.getElementById('scratchpad-text')?.value || '';
+            const firstTime = !state.solvedQuestions[qId]?.solved;
+
+            state.solvedQuestions[qId] = {
+                solved: true,
+                userAnswer: userVal,
+                writtenSteps: steps,
+                scratchpad: scratch,
+                correct: isCorrect
+            };
+
+            state.studentAttempts++;
+            if (isCorrect) state.correctCount++;
+
+            if (firstTime) {
+                const addPts = isCorrect ? 50 : 20;
+                state.points += addPts;
+                
+                // Badges Checks
+                checkBadgesEarned();
+                
+                // Trigger Celebration Modal
+                showCelebration("إنجاز رائع!", isCorrect ? "إجابتك صحيحة ودقيقة جداً!" : "تم تسليم خطوات تفكيرك بنجاح!", addPts);
+            }
+
+            saveUserData();
+            renderView();
+        }
+
+        // Hint Handler
+        function toggleHintModal(qId) {
+            const q = getAllQuestions().find(i => i.id === qId);
+            alert(`💡 تلميح رياضي مساعد:\n\n${q ? q.solution.substring(0, 80) + '...' : 'اقرئي السؤال بتمهل وحددي المعطيات والمطلوب.'}`);
+        }
+
+        // Save Question for Review Toggle
+        function toggleSaveQuestion(qId, e) {
+            if (e) e.stopPropagation();
+            const idx = state.savedReviewList.indexOf(qId);
+            if (idx > -1) {
+                state.savedReviewList.splice(idx, 1);
+            } else {
+                state.savedReviewList.push(qId);
+            }
+            saveUserData();
+            renderView();
+        }
+
+        // Question Nav Handlers
+        function prevQuestion() {
+            if (state.activeQuestionIndex > 0) {
+                state.activeQuestionIndex--;
+                renderView();
+            }
+        }
+
+        function nextQuestion() {
+            const allQ = getAllQuestions();
+            if (state.activeQuestionIndex < allQ.length - 1) {
+                state.activeQuestionIndex++;
+                renderView();
+            }
+        }
+
+        function openQuestionDirect(qId) {
+            const allQ = getAllQuestions();
+            const idx = allQ.findIndex(q => q.id === qId);
+            if (idx !== -1) {
+                state.activeQuestionIndex = idx;
+                navigateTo('question');
+            }
+        }
+
+        function startFirstUnsolved() {
+            const allQ = getAllQuestions();
+            const unsolvedIdx = allQ.findIndex(q => !state.solvedQuestions[q.id]?.solved);
+            state.activeQuestionIndex = unsolvedIdx !== -1 ? unsolvedIdx : 0;
+            navigateTo('question');
+        }
+
+        function playRandomQuestion() {
+            const allQ = getAllQuestions();
+            const randIdx = Math.floor(Math.random() * allQ.length);
+            state.activeQuestionIndex = randIdx;
+            navigateTo('question');
+        }
+
+        // Helper: Flat Array of All Questions
+        function getAllQuestions() {
+            let list = [];
+            CHAPTERS_DATA.forEach(c => {
+                list = list.concat(c.questions);
+            });
+            return list;
+        }
+
+        // 4. Lab "مختبر التفكير الرياضي" View
+        function renderLabView() {
+            const allQ = getAllQuestions();
+            const higherQuestions = allQ.filter(q => q.isHigherThinking);
+
+            let html = `
+                <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 rounded-3xl p-6 sm:p-10 text-white shadow-xl mb-8">
+                    <div class="flex items-center gap-3 text-amber-200 font-bold text-xs mb-2">
+                        <i class="fa-solid fa-microscope text-base"></i>
+                        <span>قسم إثرائي متقدم</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-black mb-3">مختبر التفكير الرياضي</h2>
+                    <p class="text-amber-100 text-xs sm:text-sm leading-relaxed max-w-2xl">
+                        قسم خاص مخصص لجميع أسئلة مهارات التفكير العليا من الكتاب المدرسي (اكتشفي الخطأ، تحدي، مسألة مفتوحة، حس عددي، قارني واستنتجي، برري إجابتك).
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            `;
+
+            higherQuestions.forEach((q, idx) => {
+                const isSolved = state.solvedQuestions[q.id]?.solved;
+
+                html += `
+                    <div class="gamified-card bg-white rounded-3xl p-6 border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full">
+                                    <i class="fa-solid fa-brain"></i> ${q.skill}
+                                </span>
+                                <span class="text-xs font-bold text-slate-400">ص ${q.page}</span>
+                            </div>
+
+                            <p class="text-xs font-bold text-brand-primary mb-2">${q.lesson}</p>
+                            <h4 class="text-sm sm:text-base font-bold text-slate-800 leading-relaxed mb-4">
+                                ${q.text}
+                            </h4>
+                        </div>
+
+                        <div class="flex items-center justify-between border-t border-slate-100 pt-4 mt-2">
+                            <span class="text-xs font-bold ${isSolved ? 'text-emerald-600' : 'text-slate-400'}">
+                                ${isSolved ? '<i class="fa-solid fa-check-circle"></i> مكتمل' : 'غير مكتمل'}
+                            </span>
+                            <button onclick="openQuestionDirect('${q.id}')" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2 rounded-xl text-xs shadow-md">
+                                خوض التحدي
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            return html;
+        }
+
+        // 5. Badges View
+        function renderBadgesView() {
+            let html = `
+                <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8 text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-600 mx-auto mb-4 flex items-center justify-center text-3xl">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-800 mb-2">لوحة الأوسمة والإنجازات</h2>
+                    <p class="text-xs text-slate-500 max-w-md mx-auto">احصلي على الأوسمة التعليمية المتميزة عند تحقيق المعايير المطلوبة في حل التحديات والمسائل.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            `;
+
+            BADGES_DEFINITIONS.forEach(b => {
+                const isEarned = state.earnedBadges.includes(b.id);
+
+                html += `
+                    <div class="gamified-card bg-white rounded-3xl p-6 border ${isEarned ? 'border-amber-300 bg-gradient-to-b from-amber-50/40 to-white' : 'border-slate-200 opacity-60'} text-center flex flex-col items-center justify-between">
+                        <div>
+                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr ${b.color} text-white mb-4 mx-auto flex items-center justify-center text-3xl shadow-lg ${isEarned ? 'badge-glow' : 'grayscale'}">
+                                <i class="fa-solid ${b.icon}"></i>
+                            </div>
+                            <h4 class="text-base font-black text-slate-800 mb-1">${b.name}</h4>
+                            <p class="text-xs text-slate-500 font-medium mb-4">${b.desc}</p>
+                        </div>
+
+                        <span class="text-xs font-extrabold px-4 py-1.5 rounded-full ${isEarned ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-500'}">
+                            ${isEarned ? '<i class="fa-solid fa-check"></i> تم الحصول عليه' : 'مغلق حالياً'}
+                        </span>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            return html;
+        }
+
+        // Checks for Earned Badges
+        function checkBadgesEarned() {
+            const solvedCount = Object.keys(state.solvedQuestions).length;
+
+            if (solvedCount >= 1 && !state.earnedBadges.includes('b1')) state.earnedBadges.push('b1');
+            if (state.studentAttempts >= 5 && !state.earnedBadges.includes('b2')) state.earnedBadges.push('b2');
+            if (state.correctCount >= 5 && !state.earnedBadges.includes('b3')) state.earnedBadges.push('b3');
+            if (state.points >= 300 && !state.earnedBadges.includes('b7')) state.earnedBadges.push('b7');
+        }
+
+        // Celebration Overlay Manager
+        function showCelebration(title, desc, pts) {
+            document.getElementById('celeb-title').innerText = title;
+            document.getElementById('celeb-desc').innerText = desc;
+            document.getElementById('celeb-points').innerText = `+${pts} نقطة إنجاز`;
+            document.getElementById('celebration-overlay').classList.remove('hidden');
+        }
+
+        function closeCelebration() {
+            document.getElementById('celebration-overlay').classList.add('hidden');
+        }
+
+        // Image Zoom Modal Handlers
+        function openZoomModal(type) {
+            document.getElementById('zoom-content').innerHTML = renderDiagramBox(type);
+            document.getElementById('zoom-modal').classList.remove('hidden');
+        }
+
+        function closeZoomModal() {
+            document.getElementById('zoom-modal').classList.add('hidden');
+        }
+
+        // Teacher Dashboard Auth Handlers
+        function openTeacherModal() {
+            document.getElementById('teacher-auth-modal').classList.remove('hidden');
+        }
+
+        function closeTeacherModal() {
+            document.getElementById('teacher-auth-modal').classList.add('hidden');
+        }
+
+        function verifyTeacherAccess(e) {
+            e.preventDefault();
+            const pass = document.getElementById('teacher-password-input').value;
+            if (pass === '1234') {
+                closeTeacherModal();
+                renderTeacherDashboard();
+            } else {
+                alert('كلمة المرور غير صحيحة، يرجى المحاولة مجدداً.');
+            }
+        }
+
+        // Render Teacher Dashboard Overlay Screen
+        function renderTeacherDashboard() {
+            const container = document.getElementById('app-container');
+            const totalQ = getAllQuestions();
+            const solvedCount = Object.keys(state.solvedQuestions).length;
+
+            let html = `
+                <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl mb-8">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-6 mb-6">
+                        <div>
+                            <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+                                <i class="fa-solid fa-user-tie"></i> لوحة المعلمة أسماء المطير
+                            </span>
+                            <h2 class="text-2xl font-black text-slate-800 mt-2">متابعة وتقييم أداء الطالبات</h2>
+                        </div>
+                        <button onclick="renderView()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs">
+                            إغلاق اللوحة
+                        </button>
+                    </div>
+
+                    <!-- Teacher Summary Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-indigo-50 p-4 rounded-2xl border border-indigo-100">
+                            <p class="text-xs font-bold text-indigo-600">إجمالي الأسئلة المحلولة:</p>
+                            <p class="text-2xl font-black text-indigo-900 mt-1">${solvedCount} / ${totalQ.length}</p>
+                        </div>
+                        <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                            <p class="text-xs font-bold text-emerald-600">مجموع النقاط المكتسبة:</p>
+                            <p class="text-2xl font-black text-emerald-900 mt-1">${state.points}</p>
+                        </div>
+                        <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100">
+                            <p class="text-xs font-bold text-amber-700">قائمة مراجعة التدقيق اليدوي:</p>
+                            <p class="text-2xl font-black text-amber-900 mt-1">${totalQ.filter(q => q.type === 'written').length} أسئلة مقالية</p>
+                        </div>
+                    </div>
+
+                    <!-- Written Answers Review Table -->
+                    <h3 class="text-base font-black text-slate-800 mb-4">خطوات الحل والتبريرات المسجلة للطالبات:</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs text-right border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 font-extrabold border-b border-slate-200">
+                                    <th class="p-3">السؤال والدرس</th>
+                                    <th class="p-3">الحالة</th>
+                                    <th class="p-3">خطوات وتفسير الطالبة</th>
+                                    <th class="p-3">الإجراء والتغذية</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+
+            totalQ.filter(q => q.type === 'written').forEach(q => {
+                const userSol = state.solvedQuestions[q.id];
+                html += `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-3 font-bold text-slate-800">
+                            ${q.lesson}<br>
+                            <span class="text-[11px] text-slate-500 font-normal">${q.text.substring(0, 45)}...</span>
+                        </td>
+                        <td class="p-3">
+                            ${userSol?.solved ? '<span class="text-emerald-600 font-bold">تم الإرسال</span>' : '<span class="text-slate-400">لم يحل</span>'}
+                        </td>
+                        <td class="p-3 font-medium text-slate-700">
+                            ${userSol?.writtenSteps ? userSol.writtenSteps : '—'}
+                        </td>
+                        <td class="p-3">
+                            <button onclick="alert('تم اعتماد درجة الخطوات وإضافة تغذية راجعة من المعلمة أسماء المطير.')" class="bg-brand-primary text-white font-bold px-3 py-1 rounded-lg text-[11px]">
+                                اعتمد التقييم
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
